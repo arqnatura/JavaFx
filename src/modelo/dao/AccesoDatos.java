@@ -23,7 +23,6 @@ public class AccesoDatos {
 	
 	// CONSULTA DE LAS BASES DE DATOS DISPONIBLES
 	
-	
 	public static void  showDataBases () {
 		
 		DefaultTableModel model;
@@ -42,7 +41,6 @@ public class AccesoDatos {
 
 }
 
-	
 	
 	// CONSULTA DE LAS TABLAS DE UNA BASE DE DATOS CONCRETA_____________________
 	
