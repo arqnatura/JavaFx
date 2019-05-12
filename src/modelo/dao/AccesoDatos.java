@@ -5,17 +5,72 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.jdbc.DatabaseMetaData;
+
 import control.BaseDatos;
 
 public class AccesoDatos {
+	
+	// CONSULTA DE LAS BASES DE DATOS DISPONIBLES
+	
+	
+	public static void  showDataBases () {
+		
+		DefaultTableModel model;
+	
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conexion = DriverManager.getConnection("localhost","root","1234");
+		DatabaseMetaData meta = conexion.getMetaData();
+		ResultSet resultSet = meta.getCatalogs();
+		while (resultSet.next()) {
+		   String db = resultSet.getString("TABLE_CAT");
+
+		model.addRow(new Object[] {db});
+		}
+		resultSet.close();
+		conexion.close();
+
+}
 
 	
-		// LISTADO DE REGISTROS A UNA TABLA CONCRETA
+	
+	// CONSULTA DE LAS TABLAS DE UNA BASE DE DATOS CONCRETA_____________________
+	
+	public static void  showTables (String bdatos) {
+
+				try {
+
+					BaseDatos bd = new BaseDatos("localhost", bdatos , "root", "1234");	
+					Connection conexion = bd.getConexion();
+					Statement stmt = conexion.createStatement(); 
+					ResultSet rS = stmt.executeQuery ("show tables");
+					
+		            while ( rS.next() ) {
+		                String lastName = rS.getString(1);
+		                System.out.println(lastName);
+		            }
+
+					stmt.close();
+					rS.close();	
+						
+					} catch (SQLException e) {
+						System.out.println(e.getMessage());
+					}
+	
+	}
+	
+	
+		// LISTADO DE REGISTROS A UNA TABLA CONCRETA_____________________________
 	
 	public static void recorreCualquierTabla (String bdatos, String tabla) {
 			// 1º CONECTAR A LA BASE DE DATOS BBDD.
@@ -50,6 +105,8 @@ public class AccesoDatos {
 	}
 	
 }
+	
+	// INSERTAR REGISTROS EN TABLAS___________________________________________
 	
 	public static void insertaJugadoresDesdeFichero(String rutaJugadores) {
 
