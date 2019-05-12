@@ -12,7 +12,7 @@ public class BaseDatos {
 	private String dbPass;
 	private Connection conexion;
 		
-			// CREAMOS UNA CADENA DE CONEXIÓN A CUALQUIER BASE DE DATOS
+			// CREAMOS UNA CADENA DE CONEXIÓN A CUALQUIER BASE DE DATOS..
 
 	public BaseDatos(String host, String dbName, String dbUser, String dbPass) {
 		super();
