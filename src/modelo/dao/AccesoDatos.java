@@ -15,7 +15,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import com.mysql.cj.jdbc.DatabaseMetaData;
+
 
 import control.BaseDatos;
 
@@ -23,7 +23,7 @@ public class AccesoDatos {
 	
 	// CONSULTA DE LAS BASES DE DATOS DISPONIBLES
 	
-	public static void  showDataBases () {
+	/*public static void  showDataBases () {
 		
 		DefaultTableModel model;
 	
@@ -40,7 +40,7 @@ public class AccesoDatos {
 		conexion.close();
 
 }
-
+*/
 	
 	// CONSULTA DE LAS TABLAS DE UNA BASE DE DATOS CONCRETA_____________________
 	

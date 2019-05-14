@@ -8,7 +8,7 @@ public class Main {
 		
 		// BaseDatos bd = new BaseDatos ("localhost:3306", "liga", "root", "1234");
 		
-		AccesoDatos.showDataBases(); // Accede a la base de datos y hacer una consulta
+		//AccesoDatos.showDataBases(); // Accede a la base de datos y hacer una consulta
 		// AccesoDatos.showTables("liga"); // Accede a la base de datos y hacer una consulta
 		
 		// AccesoDatos.recorreCualquierTabla("liga", "equipos"); // Accede al fichero y muestra por consola TODOS LOS EQUIPOS.
