@@ -17,6 +17,8 @@ public class Main {
 		// AccesoDatos.insertaJugadoresDesdeFichero("ficheros/jugadores.txt");  // Inserta jugadores en la tabla jugadores desde el fichero
 		// AccesoDatos.insertaEquiposDesdeFichero("ficheros/equipos.txt");  // Inserta equipos en la tabla equipos desde el fichero equipos.txt
 		
+		System.out.println("Fin del programa");
+		
 	}
 
 }
