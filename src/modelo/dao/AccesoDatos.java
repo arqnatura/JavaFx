@@ -97,19 +97,57 @@ public class AccesoDatos {
 		stmt.close();
 		conexion.close();
 		
-		
 	} catch (SQLException e) {
 		System.out.println(e.getMessage());
 	}
-	
 }
 	
 	// INSERTAR REGISTROS EN TABLAS___________________________________________
 	
+	public static void insertaPartidosDesdeFichero(String rutaPartidos) {
+		try {
+				BufferedReader fichero;
+				fichero = new BufferedReader(new FileReader(rutaPartidos));
+				String registro;
+				
+				BaseDatos bd = new BaseDatos("localhost", "liga", "root", "1234");
+				Connection conexion = bd.getConexion();
+				Statement stmt = conexion.createStatement();
+				
+				while ((registro = fichero.readLine()) != null) {
+
+					String[] campos = registro.split("#");
+					
+					int idPartido = Integer.parseInt(campos[0]); //ojo con las comillas en el INSERT!!!
+					int jornada = Integer.parseInt(campos[1]);
+					String eL = campos [2];
+					int gL = Integer.parseInt(campos[3]);
+					String eV = campos [4];
+					int gV = Integer.parseInt(campos [5]);
+					
+					String sql ="INSERT INTO partidos (idPartido, jornada, eL, gL, eV, gV) VALUES ";
+					sql += "(" + idPartido + ",\"" + jornada + "\"," + "\"" + eL + "\"," + "\"" + gL + "\"," + "\""
+					+ eV + "\"," + "\"" + gV + "\")";
+					stmt.executeUpdate(sql);
+					
+					System.out.println(sql);
+				}
+			
+				fichero.close();
+				System.out.println("Fin de la lectura del fichero");
+			} catch (FileNotFoundException excepcion) {
+				System.out.println("fichero no encontrado");
+			} catch (IOException e) {
+				System.out.println("IO Excepcion");
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+
+	
 	public static void insertaJugadoresDesdeFichero(String rutaJugadores) {
 
 		try {
-					
 				BufferedReader fichero;
 				fichero = new BufferedReader(new FileReader(rutaJugadores));
 				String registro;
@@ -123,20 +161,13 @@ public class AccesoDatos {
 					String[] campos = registro.split("#");
 					
 					int idJugador = Integer.parseInt(campos[0]); //ojo con las comillas en el INSERT!!!
-					String nif = campos [1];
-					String nombre = campos [2];
-					int dorsal = Integer.parseInt(campos[3]);
-					String fechaNacimiento = campos[4];
-					String sexo = campos [5];
-					int numero = Integer.parseInt(campos[6]);
-					int idEquipo = Integer.parseInt(campos [7]);
+					String nombre = campos [1];
+					int dorsal = Integer.parseInt(campos[2]);
+					int idEquipo = Integer.parseInt(campos [3]);
 					
-					
-					String sql ="INSERT INTO jugadores (idJugador, nif, nombre, dorsal, fechaNacimiento, sexo, numero, idEquipo) VALUES ";
-					sql += "(" + idJugador + ",\"" + nif  + "\"," + "\"" + nombre  + "\"," + "\"" + dorsal 
-							+ "\"," + "\"" + fechaNacimiento  + "\"," + "\"" + sexo  + "\"," + "\"" + numero  + "\"," + "\"" + idEquipo + "\")";
+					String sql ="INSERT INTO jugadores (idJugador, nombre, dorsal, idEquipo) VALUES ";
+					sql += "(" + idJugador + ",\"" + nombre + "\"," + "\"" + dorsal + "\"," + "\"" + idEquipo + "\")";
 					stmt.executeUpdate(sql);
-							//	ResultSetMetaData mD = rS.getMetaData();
 					
 					System.out.println(sql);
 				}
