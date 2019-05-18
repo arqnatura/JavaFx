@@ -23,24 +23,29 @@ public class AccesoDatos {
 	
 	// CONSULTA DE LAS BASES DE DATOS DISPONIBLES
 	
-	/*public static void  showDataBases () {
+	public static void  showDataBases () {
 		
-		DefaultTableModel model;
-	
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection conexion = DriverManager.getConnection("localhost","root","1234");
-		DatabaseMetaData meta = conexion.getMetaData();
-		ResultSet resultSet = meta.getCatalogs();
-		while (resultSet.next()) {
-		   String db = resultSet.getString("TABLE_CAT");
+		try {
 
-		model.addRow(new Object[] {db});
-		}
-		resultSet.close();
-		conexion.close();
+			BaseDatos bd = new BaseDatos("localhost", "", "root", "1234");	
+			Connection conexion = bd.getConexion();
+			Statement stmt = conexion.createStatement(); 
+			ResultSet rS = stmt.executeQuery ("show databases");
+			
+            while ( rS.next() ) {
+                String lastName = rS.getString(1);
+                System.out.println(lastName);
+            }
+
+			stmt.close();
+			rS.close();	
+				
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 
 }
-*/
+
 	
 	// CONSULTA DE LAS TABLAS DE UNA BASE DE DATOS CONCRETA_____________________
 	
