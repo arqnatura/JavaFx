@@ -21,8 +21,7 @@ public class Main {
 		// AccesoDatos.recorreCualquierTabla("liga", "equipos"); // Accede al fichero y muestra por consola TODOS LOS EQUIPOS.
 		// AccesoDatos.recorreCualquierTabla("liga", "jugadores"); // Accede al fichero y muestra por consola TODOS LOS JUGADORES.
 		
-		
-		
+				
 		// AccesoDatos.insertaJugadoresDesdeFichero("ficheros/jugadores2.txt");  // Inserta jugadores en la tabla jugadores desde el fichero
 		// AccesoDatos.insertaEquiposDesdeFichero("ficheros/equipos.txt");  // Inserta equipos en la tabla equipos desde el fichero equipos.txt
 		// AccesoDatos.insertaPartidosDesdeFichero("ficheros/partidos.txt");  // Inserta partidos en la tabla partidos desde el fichero

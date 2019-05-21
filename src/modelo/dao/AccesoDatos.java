@@ -195,6 +195,64 @@ public class AccesoDatos {
 	
 	// INSERTAR REGISTROS EN TABLAS___________________________________________
 	
+	public static void insertaPartidosDesdeFichero2(String rutaPartidos) {
+
+		try {
+			BufferedReader fichero;
+			fichero = new BufferedReader(new FileReader(rutaPartidos));
+			String registro;
+
+			BaseDatos bd = new BaseDatos("localhost", "liga", "root", "1234");
+			Connection conexion = bd.getConexion();
+			Statement stmt = conexion.createStatement();
+			
+			int IdCamposNull = 0;
+			int gL;
+			int gV;
+			
+			while ((registro = fichero.readLine()) != null) {
+				String[] campos = registro.split("#");
+				
+				if (campos[3].equals("")) {
+					gL = 0;
+					gV = 0;
+					IdCamposNull = Integer.parseInt(campos[0]);
+				} else {
+					gL = Integer.parseInt(campos[3]);
+					gV = Integer.parseInt(campos[5]);
+				}
+				
+				int id = Integer.parseInt(campos[0]);
+				int jornada = Integer.parseInt(campos[1]);
+				String eL = campos[2];				
+				String eV = campos[4];				
+				
+
+				String sql = "INSERT INTO partidos (id, jornada, eL, gL, eV, gV) VALUES ";
+				sql += "(" + id + ",'" + jornada + "'," + "'" + eL + "'," + "'" + gL + "'," + "'" + eV + "'," + "'" + gV + "')";
+				System.out.println(sql);
+				stmt.executeUpdate(sql);
+				
+				if (campos[3].equals(""))
+					 stmt.executeUpdate("UPDATE partidos SET gL = null, gV= null WHERE id = '" + IdCamposNull + "'");
+				
+			}
+
+			fichero.close();
+			System.out.println("Fin de la lectura del fichero");
+		} catch (FileNotFoundException excepcion) {
+			System.out.println("fichero no encontrado");
+
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+	
+	
+	
 	public static void insertaPartidosDesdeFichero(String rutaPartidos) {
 		try {
 				BufferedReader fichero;
