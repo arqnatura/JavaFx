@@ -11,16 +11,102 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
-
 import control.BaseDatos;
+import modelo.Jugador;
+import modelo.Equipo;
 
 public class AccesoDatos {
 	
+	// lista de jugadores de un equipo dado
+
+	public HashMap<String, Equipo> getPlayersByTeamMap(String idEquipo){
+		HashMap<String, Equipo> listaJugadores = new HashMap<String, Equipo>();
+		try {
+			BaseDatos bd = new BaseDatos("localhost:3306",  "liga", "root", "1234");
+			Connection conexion = bd.getConexion();
+			Statement stmt = conexion.createStatement();
+			String sql ="select * from jugadores where idEquipo " +		
+             " like '" +  idEquipo + "'";
+			
+			System.out.println(sql);
+			ResultSet rS = stmt.executeQuery(sql);
+     		
+			BufferedReader consulta;
+			consulta = new BufferedReader(consulta);
+			String registro;
+			Equipo equipo = null;
+			while  ((registro = consulta.readLine()) != null) {					
+				Jugador jugador = new Jugador();
+				jugador.setIdJugador(rS.getInt("idJugador"));
+				jugador.setNombre(rS.getString("nombre"));
+				jugador.setDorsal(rS.getInt("dorsal"));
+				jugador.setIdEquipo(rS.getInt("idEquipo"));				
+				listaJugadores.put(idEquipo, jugador);			
+			}
+			
+			
+			rS.close();
+			stmt.close();
+			conexion.close();
+			return listaJugadores;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}catch (NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return null;
+		
+	}
+	
+	// lista de jugadores de un equipo dado
+
+		public static ArrayList<Jugador> getPlayersByTeam(int idEquipo){
+			
+			ArrayList<Jugador> listaJugadores = new ArrayList<Jugador>();
+			try {
+				BaseDatos bd = new BaseDatos("localhost:3306",  "liga", "root", "1234");
+				Connection conexion = bd.getConexion();
+				Statement stmt = conexion.createStatement();
+				String sql ="select * from jugadores where idEquipo " +		
+	             " like '" +  idEquipo + "'";
+				
+				System.out.println(sql);
+				
+				ResultSet rS = stmt.executeQuery(sql);
+	     		
+					//	+ "(select id from equipos where equipos.nombre like \"" +  equipo +"\" );");
+				while(rS.next()) { 					
+					Jugador jugador = new Jugador();
+					jugador.setIdJugador(rS.getInt("idJugador"));
+					jugador.setNombre(rS.getString("nombre"));
+					jugador.setDorsal(rS.getInt("dorsal"));
+					jugador.setIdEquipo(rS.getInt("idEquipo"));				
+					listaJugadores.add(jugador);			
+				}			
+				rS.close();
+				stmt.close();
+				conexion.close();
+				return listaJugadores;
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}catch (NullPointerException e) {
+				System.out.println(e.getMessage());
+			}
+			
+			return null;
+			
+		}
+	
+		
+		
 	// CONSULTA DE LAS BASES DE DATOS DISPONIBLES
 	
 	public static void  showDataBases () {

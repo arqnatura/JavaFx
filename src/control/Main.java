@@ -1,13 +1,20 @@
 package control;
 
+import java.util.ArrayList;
+
+import modelo.Jugador;
 import modelo.dao.AccesoDatos;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		// BaseDatos bd = new BaseDatos ("localhost:3306", "liga", "root", "1234");
+		// Accede a la base de datos y hacer una consulta de los jugadores
+		ArrayList<Jugador> jugadoresEquipo = AccesoDatos.getPlayersByTeam(19);
+		System.out.println(jugadoresEquipo);
 		
+		// BaseDatos bd = new BaseDatos ("localhost:3306", "liga", "root", "1234");
+				
 		// AccesoDatos.showDataBases(); // Accede a la base de datos y hacer una consulta
 		// AccesoDatos.showTables("liga"); // Accede a la base de datos y hacer una consulta
 		
