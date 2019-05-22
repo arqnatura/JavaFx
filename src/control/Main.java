@@ -10,8 +10,8 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// Accede a la base de datos y hacer una consulta de los jugadores
-		ArrayList<Jugador> jugadoresEquipo = AccesoDatos.getPlayersByTeam(19);
-		System.out.println(jugadoresEquipo);
+		//ArrayList<Jugador> jugadoresEquipo = AccesoDatos.getPlayersByTeam(19);
+		//System.out.println(jugadoresEquipo);
 		
 		// BaseDatos bd = new BaseDatos ("localhost:3306", "liga", "root", "1234");
 				
@@ -25,7 +25,8 @@ public class Main {
 		// AccesoDatos.insertaJugadoresDesdeFichero("ficheros/jugadores2.txt");  // Inserta jugadores en la tabla jugadores desde el fichero
 		// AccesoDatos.insertaEquiposDesdeFichero("ficheros/equipos.txt");  // Inserta equipos en la tabla equipos desde el fichero equipos.txt
 		// AccesoDatos.insertaPartidosDesdeFichero("ficheros/partidos.txt");  // Inserta partidos en la tabla partidos desde el fichero
-
+		AccesoDatos.insertaPartidosDesdeFichero2("ficheros/partidos.txt");
+		
 		System.out.println("Fin del programa");
 		
 	}
