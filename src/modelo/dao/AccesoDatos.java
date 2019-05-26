@@ -30,82 +30,32 @@ public class AccesoDatos {
 	// METODOS:  creaPartido; actualizaEquipos, generaClasificacion, creaPartido
 	
 	public Partido creaPartidoBD (ResultSet linea) {
-		Partido partido = new Partido();
-		
+	
 		try {
+		Partido partido = new Partido();			
 			partido.setId(linea.getInt("id"));
-			partido.setJornada(linea.getInt("id"));
-			partido.setEL(linea.getInt("El"));
-			partido.setEv(linea.getInt("Ev"));
-			partido.setGl(linea.getInt("id"));
-			partido.setGv(linea.getInt("id"));
-			
+			partido.setJornada(linea.getInt("Jornada"));
+			partido.seteL(linea.getString("eL"));
+			partido.seteV(linea.getString("eV"));
+			partido.setgL(linea.getInt("gL"));
+			partido.setgV(linea.getInt("gV"));
 			return partido;
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
+		return null;
 	}
 	
-	public void actualizaEquipos(Partido partido, ArrayList<Equipo> equipos) {
-		String nCortoL = partido.geteL();
-		String nCortoV = partido.geteV();
-		Equipo eL = buscarEquipoEnLista(nCortoL, equipos);
-		Equipo eV = buscarEquipoEnLista(nCortoV, equipos);
-
-		// logica del resultado del partido
-		if (partido.getgL() > partido.getgV()) {
-			eL.setPuntos(eL.getPuntos() + 3);
-			eL.setPg(eL.getPg() + 1);
-			eV.setPp(eV.getPp() + 1);
-		} else if (partido.getgL() < partido.getgV()) {
-			eV.setPuntos(eV.getPuntos() + 3);
-			eV.setPg(eV.getPg() + 1);
-			eL.setPp(eL.getPp() + 1);
-		} else {
-			eL.setPuntos(eL.getPuntos() + 1);
-			eV.setPuntos(eV.getPuntos() + 1);
-			eV.setPe(eV.getPe() + 1);
-			eL.setPe(eL.getPe() + 1);
-		}
-		eL.setGf(eL.getGf() + partido.getgL());
-		eL.setGc(eL.getGc() + partido.getgV());
-
-		eV.setGf(eV.getGf() + partido.getgV());
-		eV.setGc(eV.getGc() + partido.getgL());
-
-		eL.setPj(eL.getPj() + 1);
-		eV.setPj(eV.getPj() + 1);
-	}
-
-	public Partido creaPartido(String linea) {
-		Partido partido = new Partido();
-		String[] campos = linea.split("#");
-		partido.setId(Integer.parseInt(campos[0]));
-		partido.setJornada(Integer.parseInt(campos[1]));
-		partido.seteL(campos[2]);
-		partido.seteV(campos[4]);
-
-		try {
-			partido.setgL(Integer.parseInt(campos[3]));
-			partido.setgV(Integer.parseInt(campos[5]));
-		} catch (NumberFormatException e) {
-			return null;
-		}
-
-		return partido;
-
-	}
-
 	public ArrayList<Equipo> generaClasificacionBD() {
-		ArrayList<Equipo> resultado = getAllTeams();
+		ArrayList<Equipo> resultado;
+		resultado = getAllTeams();
 		
 		try {
 			BaseDatos bd = new BaseDatos("localhost:3306", "liga", "root", "1234");
 			Connection conexion = bd.getConexion();
 			Statement stmt = conexion.createStatement();
 			ResultSet rS = stmt.executeQuery("select * from partidos where 1;");
-
 			Partido partido;
 			
 			while (rS.next()) {
@@ -121,7 +71,7 @@ public class AccesoDatos {
 		} catch (NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
-		return listaEquipos;
+		return null;
 	}
 	
 	public static ArrayList<Equipo> getAllTeams() {
@@ -159,7 +109,7 @@ public class AccesoDatos {
 		return listaEquipos;
 	}
 	
-	// lista de jugadores de un equipo dado
+//LISTA de jugadores de un equipo dado__________________________________________
 
 		public static ArrayList<Jugador> getPlayersByTeam(int idEquipo){
 			
@@ -172,9 +122,9 @@ public class AccesoDatos {
 	             " like '" +  idEquipo + "'";
 				
 				System.out.println(sql);
-				
+			
 				ResultSet rS = stmt.executeQuery(sql);
-	     		
+	     	
 					//	+ "(select id from equipos where equipos.nombre like \"" +  equipo +"\" );");
 				while(rS.next()) { 					
 					Jugador jugador = new Jugador();
@@ -198,9 +148,8 @@ public class AccesoDatos {
 			
 		}
 	
-		
-		
-	// CONSULTA DE LAS BASES DE DATOS DISPONIBLES
+				
+// CONSULTA DE LAS BASES DE DATOS DISPONIBLES_____________________________________
 	
 	public static void  showDataBases () {
 		
@@ -226,7 +175,7 @@ public class AccesoDatos {
 }
 
 	
-	// CONSULTA DE LAS TABLAS DE UNA BASE DE DATOS CONCRETA_____________________
+// CONSULTA DE LAS TABLAS DE UNA BASE DE DATOS CONCRETA_____________________________
 	
 	public static void  showTables (String bdatos) {
 
@@ -250,9 +199,39 @@ public class AccesoDatos {
 					}
 	
 	}
+
+// VALIDAR ENTRADA EN BASE DE DATOS CON LOGIN EN SCENE BUILDER_______________________________
+	
+	public static boolean validaLogin(String u, String p) {
+
+		try {
+			BaseDatos bd = new BaseDatos("localhost", "liga", "root", "1234");
+			Connection conexion = bd.getConexion();
+			Statement stmt = conexion.createStatement();
+
+			String sql = "SELECT * FROM usuarios  WHERE usuario LIKE '" + u + "' AND clave LIKE '" + p + "'";
+
+			ResultSet rS = stmt.executeQuery(sql);
+			int contador = 0;
+			while (rS.next()) {
+				contador++;
+			}
+			rS.close();
+			stmt.close();
+			conexion.close();
+			if (contador == 0) // no encontrado
+				return false;
+			return true;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} catch (NullPointerException e) {
+			System.out.println("Error de conexión");
+		}
+		return false;
+	}
 	
 	
-		// LISTADO DE REGISTROS A UNA TABLA CONCRETA_____________________________
+// LISTADO DE REGISTROS A UNA TABLA CONCRETA________________________________________
 	
 	public static void recorreCualquierTabla (String bdatos, String tabla) {
 			// 1º CONECTAR A LA BASE DE DATOS BBDD.

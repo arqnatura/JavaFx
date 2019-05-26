@@ -35,18 +35,30 @@ package fxml;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import modelo.Equipo;
+import modelo.dao.AccesoDatos;
  
 public class FXMLController {
-    @FXML private Text actiontarget;
+    @FXML 
+    private Text mensaje;
+    @FXML 
+    private TextField usr;
+    @FXML 
+    private PasswordField pwd;
     
-    @FXML protected void handleSubmitButtonAction(ActionEvent event) {
-        actiontarget.setText("Sign in button pressed");
+    
+    @FXML 
+    protected void validarLogin(ActionEvent event) {
+    	String texto = usr.getText() + "/" + pwd.getText();
+    	
+    	boolean login = AccesoDatos.validaLogin(usr.getText(), pwd.getText());
+    	
+    	if (login)
+    		mensaje.setText("CONECTADO");
+    	else
+    		mensaje.setText("ACCESO DENEGADO");
     }
-    
-	@FXML
-	private ComboBox<Equipo> miCombo;
-    
-
+ 
 }
