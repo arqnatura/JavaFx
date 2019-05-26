@@ -39,18 +39,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class FXML extends Application {
-	
-	    
-    public static void main(String[] args) {
-        Application.launch(FXML.class, args);
-    }
-    
-    @Override
+		        
+    @Override 
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("fxml.fxml"));
+       
+	    FXMLLoader loader = new FXMLLoader(getClass().getResource("LaLiga.fxml"));
+	    Parent root = loader.load();
         
-        stage.setTitle("FXML Welcome");
-        stage.setScene(new Scene(root, 300, 275));
-        stage.show();
-    }
-}
+	    FXMLController myController = loader.getController();
+	    
+	    Scene scene = new Scene(root);
+	    stage.setScene(scene);
+	    stage.show();
+
+	    myController.cargaEquipos();
+    } 
+    
+    
+	  public static void main(String[] args) {
+		    launch(args);
+		}
+	}
+

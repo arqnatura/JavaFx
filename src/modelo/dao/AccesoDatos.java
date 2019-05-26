@@ -30,7 +30,7 @@ public class AccesoDatos {
 	// METODOS:  creaPartido; actualizaEquipos, generaClasificacion, creaPartido
 	
 	public Partido creaPartidoBD (ResultSet linea) {
-	
+	 
 		try {
 		Partido partido = new Partido();			
 			partido.setId(linea.getInt("id"));
@@ -45,11 +45,11 @@ public class AccesoDatos {
 			System.out.println(e.getMessage());
 		}
 		return null;
-	}
+	} 
 	
 	public ArrayList<Equipo> generaClasificacionBD() {
 		ArrayList<Equipo> resultado;
-		resultado = getAllTeams();
+		resultado = getAllTeams(); 
 		
 		try {
 			BaseDatos bd = new BaseDatos("localhost:3306", "liga", "root", "1234");
@@ -122,7 +122,7 @@ public class AccesoDatos {
 	             " like '" +  idEquipo + "'";
 				
 				System.out.println(sql);
-			
+			 
 				ResultSet rS = stmt.executeQuery(sql);
 	     	
 					//	+ "(select id from equipos where equipos.nombre like \"" +  equipo +"\" );");
@@ -209,7 +209,7 @@ public class AccesoDatos {
 			Connection conexion = bd.getConexion();
 			Statement stmt = conexion.createStatement();
 
-			String sql = "SELECT * FROM usuarios  WHERE usuario LIKE '" + u + "' AND clave LIKE '" + p + "'";
+			String sql = "SELECT * FROM usuarios  WHERE usr LIKE '" + u + "' AND pwd LIKE '" + p + "'";
 
 			ResultSet rS = stmt.executeQuery(sql);
 			int contador = 0;
