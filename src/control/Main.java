@@ -28,6 +28,7 @@ public class Main {
 		// AccesoDatos.selectClasificacion("liga", "clasificacion"); // Accede a la base de datos y hacer una consulta
 		// AccesoDatos.getAllTeams();
 		
+		
 //RECORRE CUALQUIER TABLA		
 		// AccesoDatos.recorreCualquierTabla("liga", "equipos"); // Accede al fichero y muestra por consola TODOS LOS EQUIPOS.
 		// AccesoDatos.recorreCualquierTabla("liga", "jugadores"); // Accede al fichero y muestra por consola TODOS LOS JUGADORES.
