@@ -10,10 +10,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-//GENERA CLASIFICACION e INSERTA LOS DATOS DE LA CLASIFICACION EN UNA TABLA
 		
-		ArrayList<Equipo> clasificacion = AccesoDatos.generaClasificacionBD();
-		AccesoDatos.insertaEquiposDesdeLista(clasificacion);
+		
+//GENERA CLASIFICACION e INSERTA LOS DATOS DE LA CLASIFICACION EN UNA TABLA BBDD
+		// ArrayList<Equipo> clasificacion = AccesoDatos.generaClasificacionBD();
+		// AccesoDatos.insertaEquiposDesdeLista(clasificacion);
 		
 //ACCEDE a la base de datos y hacer una consulta de los jugadores
 		// ArrayList<Jugador> jugadoresEquipo = AccesoDatos.getPlayersByTeam(19);
@@ -24,7 +25,9 @@ public class Main {
 //CONSULTAS MYSQL A BASES DE DATOS				
 		// AccesoDatos.showDataBases(); // Accede a la base de datos y hacer una consulta
 		// AccesoDatos.showTables("liga"); // Accede a la base de datos y hacer una consulta
-
+		// AccesoDatos.selectClasificacion("liga", "clasificacion"); // Accede a la base de datos y hacer una consulta
+		// AccesoDatos.getAllTeams();
+		
 //RECORRE CUALQUIER TABLA		
 		// AccesoDatos.recorreCualquierTabla("liga", "equipos"); // Accede al fichero y muestra por consola TODOS LOS EQUIPOS.
 		// AccesoDatos.recorreCualquierTabla("liga", "jugadores"); // Accede al fichero y muestra por consola TODOS LOS JUGADORES.

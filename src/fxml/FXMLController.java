@@ -53,8 +53,8 @@ import javafx.stage.Stage;
 import modelo.Equipo;
 import modelo.Jugador;
 import modelo.dao.AccesoDatos;
- 
-public class FXMLController {
+
+public class FXMLController { 
 	@FXML
 	private ComboBox<Equipo> miCombo;
 	@FXML

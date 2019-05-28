@@ -25,8 +25,34 @@ import modelo.Partido;
 import modelo.Equipo;
 
 public class AccesoDatos {
-	//28 MAYO 2019 INSERTAMOS LA CLASIFICACION EN LA BASE DE DATOS
 	
+	
+// CONSULTA UNA TABLA CUALQUIERA DE UNA BASE DE DATOS CUALQUIERA_____________________________
+	public static void  selectClasificacion (String bdatos, String table) {
+
+				try {
+					BaseDatos bd = new BaseDatos("localhost", bdatos , "root", "1234");	
+					Connection conexion = bd.getConexion();
+					Statement stmt = conexion.createStatement(); 
+					ResultSet rS = stmt.executeQuery ("select * from " + "" + table + "" + " order by puntos desc");
+					
+		            while ( rS.next() ) {
+		                String lastName = rS.getString(1);
+		                System.out.println(lastName);
+		            }
+
+					stmt.close();
+					rS.close();
+					conexion.close();
+						
+					} catch (SQLException e) {
+						System.out.println(e.getMessage());
+					}
+	}
+		
+	
+	
+	//28 MAYO 2019 INSERTAMOS LA CLASIFICACION EN LA BASE DE DATOS
 	public static boolean insertaEquiposDesdeLista(ArrayList<Equipo> clasificacion) {
 		//recorrer una lista
 		//conectar e insertar en una tabla de la base de datos
@@ -51,7 +77,7 @@ public class AccesoDatos {
 
 						String sql = "insert into clasificacion(idEquipo, nombreCorto, nombre,pj,puntos,pg,pe,pp,gf,gc) values";
 						sql += "(" + idEquipo + ",\"" + nombreCorto + "\"," + "\"" + nombre + "\"";
-						sql += + pj + ",\"" + puntos + "\"," + pg + "\"" + pe + "\"" + pp + "\"" + gf + "\"" + gc + "\"" + ")";
+						sql += ", "+ pj + ", " + puntos + ", " + pg + ", " + pe + ", " + pp + ", " + gf + ", " + gc + ")";
 
 						System.out.println(sql);
 						stmt.executeUpdate(sql);
@@ -63,16 +89,15 @@ public class AccesoDatos {
 						
 					System.out.println("Fin de la lectura del fichero");
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+				return false;
 		}
 		
 	
 	
 	// 22 DE MAYO DE 2019. Con los 3 métodos siguientes vamos a generar la clasificación
-	// METODOS:  actualizaEquipos, generaClasificacion, creaPartido
+	// METODOS:  buscarEquipoEnLista, actualizaEquipos, generaClasificacionBD, creaPartidoBD
 	
 	public static Partido creaPartidoBD (ResultSet linea) {
 	 
@@ -136,6 +161,7 @@ public class AccesoDatos {
 		Equipo eV = buscarEquipoEnLista(nCortoV, equipos);
 
 		// logica del resultado del partido
+
 		if (partido.getgL() > partido.getgV()) {
 			eL.setPuntos(eL.getPuntos() + 3);
 			eL.setPg(eL.getPg() + 1);
@@ -150,6 +176,7 @@ public class AccesoDatos {
 			eV.setPe(eV.getPe() + 1);
 			eL.setPe(eL.getPe() + 1);
 		}
+		
 		eL.setGf(eL.getGf() + partido.getgL());
 		eL.setGc(eL.getGc() + partido.getgV());
 
@@ -158,10 +185,11 @@ public class AccesoDatos {
 
 		eL.setPj(eL.getPj() + 1);
 		eV.setPj(eV.getPj() + 1);
-	}
+		
+}
 
 	public Equipo buscarEquipoEnLista(String nombreCorto, ArrayList<Equipo> equipos) {
-		Equipo resultado;
+		// Equipo resultado;
 		for (Equipo equipo : equipos) {
 			if (equipo.getNombreCorto().equals(nombreCorto))
 				return equipo;
@@ -194,7 +222,7 @@ public class AccesoDatos {
 
 				listaEquipos.add(e);
 			}
-
+			//  System.out.println(listaEquipos);
 			rS.close();
 			stmt.close();
 			conexion.close();
