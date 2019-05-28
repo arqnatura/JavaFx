@@ -27,42 +27,45 @@ import modelo.Equipo;
 public class AccesoDatos {
 	//28 MAYO 2019 INSERTAMOS LA CLASIFICACION EN LA BASE DE DATOS
 	
-	public static boolean insertaEquiposDesdeLista(ArrayList<Equipo> equipos) {
+	public static boolean insertaEquiposDesdeLista(ArrayList<Equipo> clasificacion) {
 		//recorrer una lista
-		//conectar e insertar en una tabla
+		//conectar e insertar en una tabla de la base de datos
 		
-		ArrayList<String> lista = new ArrayList<String>();
+				try {
+					BaseDatos bd = new BaseDatos("localhost", "liga", "root", "1234");
+					Connection conexion = bd.getConexion();
+					Statement stmt = conexion.createStatement();
 
-				BaseDatos bd = new BaseDatos("localhost", "liga", "root", "1234");
-				Connection conexion = bd.getConexion();
-				Statement stmt = conexion.createStatement();
+					for (Equipo equipo : clasificacion) {
 
-				String registro;
-				while ((registro = fichero.readLine()) != null) {
+						int idEquipo = equipo.getIdEquipo();
+						String nombreCorto = equipo.getNombreCorto();
+						String nombre = equipo.getNombre();
+						int pj = equipo.getPj();
+						int pg = equipo.getPg();
+						int pe = equipo.getPe();
+						int pp = equipo.getPp();
+						int gf = equipo.getGf();
+						int gc = equipo.getGc();
+						int puntos = equipo.getPuntos();
 
-					int idPartido = Integer.parseInt(campos[0]);
-					int jornada = Integer.parseInt(campos[1]);
-					String eL = campos[2];
-					String eV = campos[4];
-					String sql = "insert into clasificacion(idPartido, jornada, eL, gL, eV, gV) values";
-					if (!campos[3].equals("")) {
-						int gL = Integer.parseInt(campos[3]);
-						int gV = Integer.parseInt(campos[5]);
-						sql += "(" + idPartido + "," + jornada + ",\"" + eL + "\"," + gL + ",\"" + eV + "\"," + gV + ")";
-					} else {
-						
-						sql += "(" + idPartido + "," + jornada + ",\"" + eL + "\"," + null + ",\"" + eV + "\"," + null + ")";
+						String sql = "insert into clasificacion(idEquipo, nombreCorto, nombre,pj,puntos,pg,pe,pp,gf,gc) values";
+						sql += "(" + idEquipo + ",\"" + nombreCorto + "\"," + "\"" + nombre + "\"";
+						sql += + pj + ",\"" + puntos + "\"," + pg + "\"" + pe + "\"" + pp + "\"" + gf + "\"" + gc + "\"" + ")";
+
+						System.out.println(sql);
+						stmt.executeUpdate(sql);
 
 					}
-					System.out.println(sql);
-					stmt.executeUpdate(sql);
 
+					stmt.close();
+					conexion.close();
+						
+					System.out.println("Fin de la lectura del fichero");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				rS.close();
-				stmt.close();
-				conexion.close();
-					
-				System.out.println("Fin de la lectura del fichero");
 
 		}
 		

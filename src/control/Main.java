@@ -3,6 +3,7 @@ package control;
 import java.util.ArrayList;
 
 import modelo.Jugador;
+import modelo.Equipo;
 import modelo.dao.AccesoDatos;
 
 public class Main {
@@ -11,8 +12,8 @@ public class Main {
 		
 //GENERA CLASIFICACION e INSERTA LOS DATOS DE LA CLASIFICACION EN UNA TABLA
 		
-		AccesoDatos.generaClasificacionBD();
-		
+		ArrayList<Equipo> clasificacion = AccesoDatos.generaClasificacionBD();
+		AccesoDatos.insertaEquiposDesdeLista(clasificacion);
 		
 //ACCEDE a la base de datos y hacer una consulta de los jugadores
 		// ArrayList<Jugador> jugadoresEquipo = AccesoDatos.getPlayersByTeam(19);
