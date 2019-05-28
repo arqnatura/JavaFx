@@ -9,6 +9,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+//GENERA CLASIFICACION e INSERTA LOS DATOS DE LA CLASIFICACION EN UNA TABLA
+		
+		AccesoDatos.generaClasificacionBD();
+		
+		
 //ACCEDE a la base de datos y hacer una consulta de los jugadores
 		// ArrayList<Jugador> jugadoresEquipo = AccesoDatos.getPlayersByTeam(19);
 		// System.out.println(jugadoresEquipo);

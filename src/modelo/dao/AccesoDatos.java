@@ -25,15 +25,57 @@ import modelo.Partido;
 import modelo.Equipo;
 
 public class AccesoDatos {
+	//28 MAYO 2019 INSERTAMOS LA CLASIFICACION EN LA BASE DE DATOS
+	
+	public static boolean insertaEquiposDesdeLista(ArrayList<Equipo> equipos) {
+		//recorrer una lista
+		//conectar e insertar en una tabla
+		
+		ArrayList<String> lista = new ArrayList<String>();
+
+				BaseDatos bd = new BaseDatos("localhost", "liga", "root", "1234");
+				Connection conexion = bd.getConexion();
+				Statement stmt = conexion.createStatement();
+
+				String registro;
+				while ((registro = fichero.readLine()) != null) {
+
+					int idPartido = Integer.parseInt(campos[0]);
+					int jornada = Integer.parseInt(campos[1]);
+					String eL = campos[2];
+					String eV = campos[4];
+					String sql = "insert into clasificacion(idPartido, jornada, eL, gL, eV, gV) values";
+					if (!campos[3].equals("")) {
+						int gL = Integer.parseInt(campos[3]);
+						int gV = Integer.parseInt(campos[5]);
+						sql += "(" + idPartido + "," + jornada + ",\"" + eL + "\"," + gL + ",\"" + eV + "\"," + gV + ")";
+					} else {
+						
+						sql += "(" + idPartido + "," + jornada + ",\"" + eL + "\"," + null + ",\"" + eV + "\"," + null + ")";
+
+					}
+					System.out.println(sql);
+					stmt.executeUpdate(sql);
+
+				}
+				rS.close();
+				stmt.close();
+				conexion.close();
+					
+				System.out.println("Fin de la lectura del fichero");
+
+		}
+		
+	
 	
 	// 22 DE MAYO DE 2019. Con los 3 métodos siguientes vamos a generar la clasificación
-	// METODOS:  creaPartido; actualizaEquipos, generaClasificacion, creaPartido
+	// METODOS:  actualizaEquipos, generaClasificacion, creaPartido
 	
-	public Partido creaPartidoBD (ResultSet linea) {
+	public static Partido creaPartidoBD (ResultSet linea) {
 	 
 		try {
 		Partido partido = new Partido();			
-			partido.setId(linea.getInt("id"));
+			partido.setId(linea.getInt("idPartido"));
 			partido.setJornada(linea.getInt("Jornada"));
 			partido.seteL(linea.getString("eL"));
 			partido.seteV(linea.getString("eV"));
@@ -47,7 +89,7 @@ public class AccesoDatos {
 		return null;
 	} 
 	
-	public ArrayList<Equipo> generaClasificacionBD() {
+	public static ArrayList<Equipo> generaClasificacionBD() {
 		ArrayList<Equipo> resultado;
 		resultado = getAllTeams(); 
 		
@@ -57,22 +99,74 @@ public class AccesoDatos {
 			Statement stmt = conexion.createStatement();
 			ResultSet rS = stmt.executeQuery("select * from partidos where 1;");
 			Partido partido;
+			AccesoDatos e =  new AccesoDatos();
 			
-			while (rS.next()) {
-				partido = creaPartidoBD(rS);
-				
+			try {
+				while (rS.next()) {
+					partido = creaPartidoBD(rS);
+					e.actualizaEquipos(partido, resultado);
+				}
+			} catch (NullPointerException e1) {
+					System.out.println(e1.getMessage());
 			}
-
+			Collections.sort(resultado, null);
+			
 			rS.close();
 			stmt.close();
 			conexion.close();
+		System.out.println(resultado);			
+		return resultado;
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} catch (NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
 		return null;
+
 	}
+	
+	public void actualizaEquipos(Partido partido, ArrayList<Equipo> equipos) {
+		String nCortoL = partido.geteL();
+		String nCortoV = partido.geteV();
+		Equipo eL = buscarEquipoEnLista(nCortoL, equipos);
+		Equipo eV = buscarEquipoEnLista(nCortoV, equipos);
+
+		// logica del resultado del partido
+		if (partido.getgL() > partido.getgV()) {
+			eL.setPuntos(eL.getPuntos() + 3);
+			eL.setPg(eL.getPg() + 1);
+			eV.setPp(eV.getPp() + 1);
+		} else if (partido.getgL() < partido.getgV()) {
+			eV.setPuntos(eV.getPuntos() + 3);
+			eV.setPg(eV.getPg() + 1);
+			eL.setPp(eL.getPp() + 1);
+		} else {
+			eL.setPuntos(eL.getPuntos() + 1);
+			eV.setPuntos(eV.getPuntos() + 1);
+			eV.setPe(eV.getPe() + 1);
+			eL.setPe(eL.getPe() + 1);
+		}
+		eL.setGf(eL.getGf() + partido.getgL());
+		eL.setGc(eL.getGc() + partido.getgV());
+
+		eV.setGf(eV.getGf() + partido.getgV());
+		eV.setGc(eV.getGc() + partido.getgL());
+
+		eL.setPj(eL.getPj() + 1);
+		eV.setPj(eV.getPj() + 1);
+	}
+
+	public Equipo buscarEquipoEnLista(String nombreCorto, ArrayList<Equipo> equipos) {
+		Equipo resultado;
+		for (Equipo equipo : equipos) {
+			if (equipo.getNombreCorto().equals(nombreCorto))
+				return equipo;
+		}
+		System.out.println("Ooops.. algo falla");
+		return null;
+	}
+	
 	
 	public static ArrayList<Equipo> getAllTeams() {
 		ArrayList<Equipo> listaEquipos = new ArrayList<Equipo>();
