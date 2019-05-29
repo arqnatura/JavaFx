@@ -100,9 +100,9 @@ public class AccesoDatos {
 	// METODOS:  buscarEquipoEnLista, actualizaEquipos, generaClasificacionBD, creaPartidoBD
 	
 	public static Partido creaPartidoBD (ResultSet linea) {
-	 
+			Partido partido = new Partido(); 
 		try {
-		Partido partido = new Partido();			
+		//	if (linea.getString("gL") != null) {  //Evitamos la lectura de los partidos no jugados nulos
 			partido.setId(linea.getInt("idPartido"));
 			partido.setJornada(linea.getInt("Jornada"));
 			partido.seteL(linea.getString("eL"));
@@ -110,7 +110,7 @@ public class AccesoDatos {
 			partido.setgL(linea.getInt("gL"));
 			partido.setgV(linea.getInt("gV"));
 			return partido;
-			
+		//	}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -125,13 +125,15 @@ public class AccesoDatos {
 			BaseDatos bd = new BaseDatos("localhost:3306", "liga", "root", "1234");
 			Connection conexion = bd.getConexion();
 			Statement stmt = conexion.createStatement();
-			ResultSet rS = stmt.executeQuery("select * from partidos where 1;");
+			ResultSet rS = stmt.executeQuery("select * from partidos where gl is not null;");
 			Partido partido;
 			AccesoDatos e =  new AccesoDatos();
 			
 			try {
 				while (rS.next()) {
 					partido = creaPartidoBD(rS);
+				//	if (partido == null) 	//Evitamos la lectura de los partidos nulos
+				//		break;
 					e.actualizaEquipos(partido, resultado);
 				}
 			} catch (NullPointerException e1) {
