@@ -51,7 +51,6 @@ public class AccesoDatos {
 	}
 		
 	
-	
 	//28 MAYO 2019 INSERTAMOS LA CLASIFICACION EN LA BASE DE DATOS
 	public static boolean insertaEquiposDesdeLista(ArrayList<Equipo> clasificacion) {
 		//recorrer una lista

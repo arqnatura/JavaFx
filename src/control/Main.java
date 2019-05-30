@@ -12,9 +12,9 @@ public class Main {
 		
 		
 		
-//GENERA CLASIFICACION e INSERTA LOS DATOS DE LA CLASIFICACION EN UNA TABLA BBDD
-		ArrayList<Equipo> clasificacion = AccesoDatos.generaClasificacionBD();
-		AccesoDatos.insertaEquiposDesdeLista(clasificacion);
+//GENERA CLASIFICACION DESDE PARTIDOS e INSERTA LOS DATOS DE LA CLASIFICACION EN UNA TABLA BBDD
+		// ArrayList<Equipo> clasificacion = AccesoDatos.generaClasificacionBD();
+		// AccesoDatos.insertaEquiposDesdeLista(clasificacion);
 		
 //ACCEDE a la base de datos y hacer una consulta de los jugadores
 		// ArrayList<Jugador> jugadoresEquipo = AccesoDatos.getPlayersByTeam(19);
