@@ -223,7 +223,7 @@ public class AccesoDatos {
 
 				listaEquipos.add(e);
 			}
-			//  System.out.println(listaEquipos);
+			System.out.println(listaEquipos);
 			rS.close();
 			stmt.close();
 			conexion.close();
