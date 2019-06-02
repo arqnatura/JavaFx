@@ -49,4 +49,9 @@ public class Jugador {
 		this.idEquipo = idEquipo;
 	}
 
+	@Override
+	public String toString() {
+		return  nombre;
+	}
+	
 }

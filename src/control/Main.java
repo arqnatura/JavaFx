@@ -26,7 +26,7 @@ public class Main {
 		// AccesoDatos.showDataBases(); // Accede a la base de datos y hacer una consulta
 		// AccesoDatos.showTables("liga"); // Accede a la base de datos y hacer una consulta
 		//AccesoDatos.selectClasificacion("liga", "clasificacion"); // Accede a la base de datos y hacer una consulta
-		AccesoDatos.getAllTeams();
+		// AccesoDatos.getAllTeams();
 		
 		
 //RECORRE CUALQUIER TABLA		

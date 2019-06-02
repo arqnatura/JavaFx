@@ -88,7 +88,7 @@ public class FXMLController {
 			Image image = new Image(file.toURI().toString());
 			iv_estadio.setImage(image);
 		} catch (NullPointerException e) {
-			
+
 		}
 	}
 	
